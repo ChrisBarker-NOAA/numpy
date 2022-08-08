@@ -1391,6 +1391,21 @@ def searchsorted(a, v, side='left', sorter=None):
     >>> np.searchsorted([1,2,3,4,5], [-10, 10, 2, 3])
     array([0, 5, 1, 2])
 
+    Searching for specific values
+    -----------------------------
+
+    `searchsorder()`() is useful for finding insertion points but can be tricky or
+    awkward to use for common searching tasks. However a little post-processing can
+    transform it to a standard lookup:
+
+    >>> source = [1,  3,  4,  5,  7,  9, 12]
+    >>> values_to_find = [3, 12, 2, 5, -2, 14]
+    >>> # find the insertion points
+    >>> insert_idx = np.searchsorted(source, values_to_find)
+    >>> # remove the ones that are not exact value
+    >>> insert_idx[np.take(source, insert_idx, mode='clip') == values_to_find]
+    array([1, 6, 3])
+
     """
     return _wrapfunc(a, 'searchsorted', v, side=side, sorter=sorter)
 
